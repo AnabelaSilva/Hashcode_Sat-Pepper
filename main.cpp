@@ -97,13 +97,17 @@ int main() {
 
     }
 
-    /* ofstream output_file;
+    ofstream output_file;
     output_file.open ("output.txt");
     output_file << sol_lib.size() << "\n";
     for(int i = 0; i < sol_lib.size(); i++){
-        output_file << sol_lib.at(i) <<" "<< sol_books.at(i).size()<< "\n";
+        output_file << sol_lib.at(i) <<" "<< booksInLibrary.at(i).size()<< "\n";
+        for(int j=0; j< booksInLibrary.at(i).size(); j++){
+            output_file << booksInLibrary.at(i).at(j) << " ";
+        }
+        output_file << "\n";
     }
-    output_file.close(); */
+    output_file.close();
 
     cout << "GG EZ WIN\n";
 
