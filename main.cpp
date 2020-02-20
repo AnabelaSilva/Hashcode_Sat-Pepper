@@ -11,7 +11,7 @@ using namespace std;
 
 vector<int> books;
 vector<int> libscore;
-    
+
 void output() {
     ofstream myfile;
     myfile.open ("result.txt");
@@ -19,20 +19,21 @@ void output() {
     myfile.close();
 }
 
-// Compares two intervals according to staring times. 
-bool compareBooks(int i1, int i2) 
-{ 
-    return books[i1] > books[i2]; 
-} 
+// Compares two intervals according to staring times.
+bool compareBooks(int i1, int i2)
+{
+    return books[i1] > books[i2];
+}
 
-bool compareLib(int i1, int i2) 
-{ 
-    return libscore[i1] > libscore[i2]; 
-} 
+bool compareLib(int i1, int i2)
+{
+    return libscore[i1] > libscore[i2];
+}
 
-int main() {
+int main(int argc, char* argv[]) {
     string line;
-    ifstream myfile ("a_example.txt");
+    string filename = argv[1];
+    ifstream myfile (filename + ".txt");
     vector<string> inputVec;
     if (myfile.is_open())
     {
@@ -50,12 +51,12 @@ int main() {
     istringstream iss2(inputVec[1]);
     std::vector<std::string> results2(istream_iterator<string>{iss2},
                                  istream_iterator<string>());
-    
+
     for (int i=0; i < results2.size(); i++) {
         books.push_back(stoi(results2.at(i)));
     }
 
-    
+
     vector<int> librarySignupTime;
     vector<int> libraryBooksperDay;
     vector<vector<int>> booksInLibrary;
@@ -73,9 +74,9 @@ int main() {
         std::vector<std::string> results4(istream_iterator<string>{iss4},
                                  istream_iterator<string>());
         vector<int> aux;
-        unordered_set<int> booksSet;                        
+        unordered_set<int> booksSet;
         for (int j=0; j < results4.size(); j++) {
-            
+
             aux.push_back(stoi(results4.at(j)));
             booksSet.insert(stoi(results4.at(j)));
         }
@@ -92,24 +93,39 @@ int main() {
         {
             value += books.at(booksInLibrary.at(i).at(j));
         }
-        value = value / booksInLibrary.at(i).size();
-        value = value * (days-librarySignupTime.size());
+        // value = value / booksInLibrary.at(i).size();
+        // value = value * (days-librarySignupTime.size());
         libscore.push_back(value);
-        sol_lib.push_back(i);
+        // sol_lib.push_back(i);
     }
 
-    sort(sol_lib.begin(), sol_lib.end(), compareLib);
-    for(int currentDay=0; currentDay < days; currentDay++) {
+    // sort(sol_lib.begin(), sol_lib.end(), compareLib);
 
+    int currentDay = 0;
+    while(currentDay < days) {
+        int daysRemaining = days - currentDay;
+        int max_lib_score = 0;
+        int best_lib_index = -1;
+        for (int l = 0; l < libraryBooksperDay.size(); l++) {
+            int val = (libscore.at(l) / booksInLibrary.at(l).size())* (daysRemaining-librarySignupTime.size());
+            if (val > max_lib_score) {
+                max_lib_score = val;
+                best_lib_index = l;
+            }
+        }
+        // Choose best lib
+        sol_lib.push_back(best_lib_index);
+        
+        currentDay++;
     }
 
     ofstream output_file;
-    output_file.open ("output.txt");
+    output_file.open ("out_" + filename + ".txt");
     output_file << sol_lib.size() << "\n";
     for(int i = 0; i < sol_lib.size(); i++){
-        output_file << sol_lib.at(i) <<" "<< booksInLibrary.at(i).size()<< "\n";
-        for(int j=0; j< booksInLibrary.at(i).size(); j++){
-            output_file << booksInLibrary.at(i).at(j) << " ";
+        output_file << sol_lib.at(i) <<" "<< booksInLibrary.at(sol_lib.at(i)).size()<< "\n";
+        for(int j=0; j< booksInLibrary.at(sol_lib.at(i)).size(); j++){
+            output_file << booksInLibrary.at(sol_lib.at(i)).at(j) << " ";
         }
         output_file << "\n";
     }
