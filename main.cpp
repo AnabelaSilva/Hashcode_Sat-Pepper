@@ -62,17 +62,30 @@ int main() {
         }
         booksInLibrary.push_back(aux);
     }
-
-    
-
-
+vector<int> libscore;
+    for (int i = 0; i < librarySignupTime.size(); i++) {
+        int value = 0;
+        for (int j = 0; j < booksInLibrary.at(i).size(); j++)
+        {
+            value += books.at(booksInLibrary.at(i).at(j));
+        }
+        value = value / booksInLibrary.at(i).size();
+        value = value * (days-librarySignupTime.size());
+        libscore.push_back(value);
+    }
 
 
     for(int currentDay=0; currentDay < days; currentDay++) {
 
     }
 
-
+    /* ofstream output_file;
+    output_file.open ("output.txt");
+    output_file << sol_lib.size() << "\n";
+    for(int i = 0; i < sol_lib.size(); i++){
+        output_file << sol_lib.at(i) <<" "<< sol_books.at(i).size()<< "\n";
+    }
+    output_file.close(); */
 
     cout << "GG EZ WIN\n";
 
