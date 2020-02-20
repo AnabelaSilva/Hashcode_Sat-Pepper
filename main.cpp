@@ -4,8 +4,11 @@
 #include <vector>
 #include <sstream>
 #include <iterator>
+#include <algorithm>
 
 using namespace std;
+
+vector<int> books;
 
 void output() {
     ofstream myfile;
@@ -13,6 +16,12 @@ void output() {
     myfile << "Writing this to a file.\n";
     myfile.close();
 }
+
+// Compares two intervals according to staring times. 
+bool compareBooks(int i1, int i2) 
+{ 
+    return books[i1] > books[i2]; 
+} 
 
 int main() {
     string line;
@@ -34,7 +43,7 @@ int main() {
     istringstream iss2(inputVec[1]);
     std::vector<std::string> results2(istream_iterator<string>{iss2},
                                  istream_iterator<string>());
-    vector<int> books;
+    
     for (int i=0; i < results2.size(); i++) {
         books.push_back(stoi(results2.at(i)));
     }
@@ -60,10 +69,15 @@ int main() {
             
             aux.push_back(stoi(results4.at(j)));
         }
+        sort(aux.begin(), aux.end(), compareBooks);
+
         booksInLibrary.push_back(aux);
     }
 
-    
+    for(int i = 0; i < booksInLibrary.size(); i++) {
+        vector<int> booksIndexes = booksInLibrary[i];
+
+    }
 
 
 
