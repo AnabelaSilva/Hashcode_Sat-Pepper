@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iterator>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -51,7 +52,8 @@ int main() {
     
     vector<int> librarySignupTime;
     vector<int> libraryBooksperDay;
-    vector<vector<int>> booksInLibrary; 
+    vector<vector<int>> booksInLibrary;
+    vector<unordered_set<int>> booksInLibSet;
 
 
     for (int i = 2; i < inputVec.size(); i+=2) {
@@ -64,32 +66,33 @@ int main() {
         istringstream iss4(inputVec[i+1]);
         std::vector<std::string> results4(istream_iterator<string>{iss4},
                                  istream_iterator<string>());
-        vector<int> aux;                        
+        vector<int> aux;
+        unordered_set<int> booksSet;                        
         for (int j=0; j < results4.size(); j++) {
             
             aux.push_back(stoi(results4.at(j)));
+            booksSet.insert(stoi(results4.at(j)));
         }
         sort(aux.begin(), aux.end(), compareBooks);
 
         booksInLibrary.push_back(aux);
+        booksInLibSet.push_back(booksSet);
     }
-vector<int> libscore;
+    vector<int> libBookScores;
     for (int i = 0; i < librarySignupTime.size(); i++) {
         int value = 0;
         for (int j = 0; j < booksInLibrary.at(i).size(); j++)
         {
             value += books.at(booksInLibrary.at(i).at(j));
         }
-        value = value / booksInLibrary.at(i).size();
-        value = value * (days-librarySignupTime.size());
-        libscore.push_back(value);
+        //value = (value / booksInLibrary.at(i).size()) * (libraryBooksperDay.at(i)*(days-librarySignupTime.size()));
+        libBookScores.push_back(value);
     }
 
-
-    for(int currentDay=0; currentDay < days; currentDay++) {
+    int currentDay = 0;
+    while (currentDay < days) {
 
     }
-
     /* ofstream output_file;
     output_file.open ("output.txt");
     output_file << sol_lib.size() << "\n";
