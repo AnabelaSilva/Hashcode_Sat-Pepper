@@ -9,7 +9,8 @@
 using namespace std;
 
 vector<int> books;
-
+vector<int> libscore;
+    
 void output() {
     ofstream myfile;
     myfile.open ("result.txt");
@@ -21,6 +22,11 @@ void output() {
 bool compareBooks(int i1, int i2) 
 { 
     return books[i1] > books[i2]; 
+} 
+
+bool compareLib(int i1, int i2) 
+{ 
+    return libscore[i1] > libscore[i2]; 
 } 
 
 int main() {
@@ -73,7 +79,7 @@ int main() {
 
         booksInLibrary.push_back(aux);
     }
-vector<int> libscore;
+    vector<int> sol_lib;
     for (int i = 0; i < librarySignupTime.size(); i++) {
         int value = 0;
         for (int j = 0; j < booksInLibrary.at(i).size(); j++)
@@ -83,9 +89,10 @@ vector<int> libscore;
         value = value / booksInLibrary.at(i).size();
         value = value * (days-librarySignupTime.size());
         libscore.push_back(value);
+        sol_lib.push_back(i);
     }
 
-
+    sort(sol_lib.begin(), sol_lib.end(), compareLib);
     for(int currentDay=0; currentDay < days; currentDay++) {
 
     }
